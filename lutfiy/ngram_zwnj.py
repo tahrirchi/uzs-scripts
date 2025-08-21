@@ -63,28 +63,16 @@ class GenericNGramPredictor:
         Returns:
             GenericNGramPredictor instance with default model
         """
-        # Try multiple possible locations for the model
-        possible_paths = [
-            # Relative to the package root
-            Path(__file__).parent.parent / "files" / "ngram_predictor.pkl",
-            # Relative to current working directory
-            Path.cwd() / "files" / "ngram_predictor.pkl",
-            # Relative to the lutfiy package
-            Path(__file__).parent / ".." / "files" / "ngram_predictor.pkl",
-        ]
+        # Get the model path relative to this module
+        model_path = Path(__file__).parent / "files" / "ngram_predictor.pkl"
         
-        for model_path in possible_paths:
-            model_path = model_path.resolve()  # Resolve to absolute path
-            if model_path.exists():
-                return cls.from_file(model_path)
+        if not model_path.exists():
+            raise FileNotFoundError(
+                f"Default model not found at {model_path}. "
+                "Please ensure the model file is included in the package."
+            )
         
-        # If none found, provide helpful error message
-        paths_checked = [str(p.resolve()) for p in possible_paths]
-        raise FileNotFoundError(
-            f"Default model not found. Checked the following locations:\n" +
-            "\n".join(f"  - {path}" for path in paths_checked) +
-            f"\nCurrent working directory: {Path.cwd()}"
-        )
+        return cls.from_file(model_path)
     
     def load_model(self, model_path: Union[str, Path]):
         """

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "lutfiy"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
     { name="Muhammadsaid Mamasaidov", email="mukhammadsaid.mamasaidov@gmail.com" },
     { name="Abror Shopulatov", email="murodbeck@proton.me" },
@@ -31,3 +31,6 @@ classifiers = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["lutfiy"]
+
+[tool.setuptools.package-data]
+lutfiy = ["files/*.pkl"]
